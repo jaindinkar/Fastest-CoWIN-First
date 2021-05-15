@@ -29,7 +29,7 @@ Script uses a telegram bot to notify you as soon as a slot is available for book
 
 
 
-##FAQ:
+## FAQ:
 
 Q: Why can't we book slots using the script?
 This script only notifies you when there is an empty slot. It does not book slots for you. For booking you have to manually login and select the slot. The booking API is restricted by the government for the official use only. So, it's not possible now to do so.
