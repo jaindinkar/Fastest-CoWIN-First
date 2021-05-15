@@ -16,15 +16,15 @@ class Slot:
 
 
 # ----------------Filter selection.--------------------
-pinCode = '301001'
+pinCode = '301001' # Change to your city's pincode.
 for18Plus = True
-for45Plus = True
+for45Plus = False
 includePaid = False
 vaccineType = ['ALL'] # Default ALL: Slection -'COVISHIELD', 'COVAXIN', 'SPUTNIK-V'
-enableNotification = False
+enableNotification = True
 enableErrorNotification = False
 refreshInterval = 10  # in Seconds (minimum = 3, recommended = 20. Below minimum you will be banned from API)
-includeOccupiedSlots = True
+includeOccupiedSlots = False
 # -----------------------------------------------------
 
 
@@ -114,7 +114,7 @@ while True:
             if enableNotification:
                 telegram_send.send(messages=[message_text])
         else:
-            print("No slots available matching your filter criteria.")
+            print("No open slots for given filter. Wait untill notification arrives.")
 
     else:
         print("Request Failed!!")
