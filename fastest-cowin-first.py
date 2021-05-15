@@ -16,13 +16,17 @@ class Slot:
 
 # ----------------Filter selection.--------------------
 for18Plus = True
-for45Plus = False
+for45Plus = True
 includePaid = False
 vaccineType = ['ALL'] # Add 'COVISHIELD', 'COVAXIN', 'SPUTNIK-V'
+enableNotification = False
+enableErrorNotification = False
+refreshInterval = 10  # in Seconds (minimum = 3, recommended = 20. Below minimum you will be banned from API)
+includeOccupiedSlots = False
 # -----------------------------------------------------
 
 
-if for18Plus && for45Plus:
+if for18Plus and for45Plus:
     minAgeLimit = [18, 45]
 elif for18Plus:
     minAgeLimit = [18]
@@ -38,11 +42,16 @@ else:
     feeType = ['Free']
 
 
-if vaccineType[0] = 'ALL':
+if vaccineType[0] == 'ALL':
     vaccine = ['COVISHIELD', 'COVAXIN', 'SPUTNIK-V']
 else:
     vaccine = vaccineType
 
+
+if includeOccupiedSlots:
+    min_cap = 0
+else:
+    min_cap = 1
 
 
 url = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin"
@@ -56,78 +65,60 @@ request_num = 0
 
 while True:
 
+    print(f'num_req: {request_num}')
+
     r = requests.get(url, params=payload, headers=headers)
-
-    # print(r.url)
-    print(request_num)
-
-    center_addr_list = []
-    center_stock_list = []
 
     avl_slot_list = []
 
-    isVaccAvailable = False
 
     if r.status_code == requests.codes.ok :
 
-        print('request successful')
-
         response = r.json()
-
-        # print(type(response))
         
         center_details_list = (response["centers"])
         
-        # print(type(center_details_list))
-        
         for obj in center_details_list:
             for session in obj['sessions']:
-                if session.available_capacity > 0:
-                    if session.min_age_limit in minAgeLimit:
-                        if obj.fee_type in feeType:
-                            if session.vaccine in vaccine:
+                if session['available_capacity'] >= min_cap:
+                    if session['min_age_limit'] in minAgeLimit:
+                        if obj['fee_type'] in feeType:
+                            if session['vaccine'] in vaccine:
                                 add_str = obj['name'] + ", " + obj['address']
                                 avl_slot_list.append(Slot(
                                     address=add_str, 
-                                    date=session.date, 
-                                    minAge=session.min_age_limit, 
-                                    vaccType=session.vaccine, 
-                                    feeType=obj.fee_type, 
-                                    avlCapacity=session.available_capacity
+                                    date=session['date'], 
+                                    minAge=session['min_age_limit'], 
+                                    vaccType=session['vaccine'], 
+                                    feeType=obj['fee_type'], 
+                                    avlCapacity=session['available_capacity']
                                 ))
 
-
-
-
-
-
-            center_addr_list.append(obj['name'] + ", " + obj['address'])
-            sum_vacc = 0
-            for session in obj['sessions']:
-                sum_vacc += session['available_capacity']
-                if sum_vacc > 0:
-                    isVaccAvailable = True
-            center_stock_list.append(sum_vacc)
+        message_text = ''
+        for i in range(len(avl_slot_list)):
+            print(
+                
+                f'{i+1}) {avl_slot_list[i].address}\n'\
+                f'Date: {avl_slot_list[i].date}\n' \
+                f'Available Capacity: {avl_slot_list[i].avlCapacity}\n'\
+                f'Fee Type: {avl_slot_list[i].feeType}\n\n'
+            )
+            message_text += f'{i+1}) {avl_slot_list[i].address}\n'\
+                            f'Date: {avl_slot_list[i].date}\n' \
+                            f'Available Capacity: {avl_slot_list[i].avlCapacity}\n'\
+                            f'Fee Type: {avl_slot_list[i].feeType}\n\n'
         
-        
-        # message_text = '\n'.join(zip(center_addr_list,center_stock_list))
-        # message_text = ''
-        for i in range(len(center_addr_list)):
-            print(f'{i+1}) {center_addr_list[i]} Dose Available: {center_stock_list[i]}')
-            # message_text += f'{i+1}) {center_addr_list[i]} Dose Available: {center_stock_list[i]}\n'
-        # print(message_text)
-        # telegram_send.send(messages=[message_text])
-        
-        if isVaccAvailable:
-            telegram_send.send(messages=['Vaccine available at a center: check your dashboard.'])
+        if avl_slot_list:
+            if enableNotification:
+                telegram_send.send(messages=[message_text])
+        else:
+            print("No slots available matching your filter criteria.")
 
     else:
+        print("Request Failed!!")
         print(r.status_code)
-        #telegram_send.send(messages=[r.text])
+        if enableErrorNotification:
+            telegram_send.send(messages=[r.status_code, r.text])
 
-    time.sleep(10)
+    time.sleep(refreshInterval)
     request_num += 1
-
-
-
-
