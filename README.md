@@ -12,37 +12,37 @@ Script uses a telegram bot to notify you as soon as a slot is available for book
 - A good selection of filters, notified only when it's time.
 - Takes very less resources in the background, no CPU loading at all.
 - Minimal approach, easy to understand, low latency.
-- Can be modified to integrate with multiple broadcasting channels.(Bots, messaging queues, email-reminders)
+- Can be modified to integrate with multiple broadcasting channels.(Bots, email, SMS, etc.)
 - Selectable refresh frequecy, upto 100 API calls in 5 min.
-- Beautifully formatted data, easy to read.
+- Properly formatted data, easy to read.
 
 
 ## How to Use:
 
--> Download and Install Telegram on your phone/desktop.
--> Install BotFather and create a new bot. (Follow the article.)
--> Create a Python virtual environment in a separate directory.
--> Clone the repo, install all the requirements from requirements.txt
--> Configure your bot on desktop using telegram-send --configure.
--> Set the Appropriate filters in the script.
--> Run the script in the background.
+- Download and Install Telegram on your phone/desktop.
+- Install BotFather and create a new bot. (Follow the article.)
+- Create a Python virtual environment in a separate directory.
+- Clone the repo, install all the requirements from requirements.txt
+- Configure your bot on desktop using telegram-send --configure.
+- Set the Appropriate filters in the script.
+- Run the script in the background.
 
 
 
 ## FAQ:
 
-Q: Why can't we book slots using the script?
+#### Q: Why can't we book slots using the script?
 This script only notifies you when there is an empty slot. It does not book slots for you. For booking you have to manually login and select the slot. The booking API is restricted by the government for the official use only. So, it's not possible now to do so.
 
-Q: How do we use filters properly?
+#### Q: How do we use filters properly?
 Filters are very easy to understand by reading comments in code. A proper list of usecase will be available soon.
 
-Q: How should I set up the bot?
+#### Q: How should I set up the bot?
 You can follow this article for that. It's very easy, given you have a phone or desktop. :smile:
 
 ## References:
 
--> Medium Article on how to configure BotFather.
--> Requests module docs.
--> telegram-send module docs.
--> CoWin API support.
+- Medium Article on how to configure BotFather.
+- Requests module docs.
+- telegram-send module docs.
+- CoWin API support.
