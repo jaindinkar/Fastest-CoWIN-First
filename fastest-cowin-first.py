@@ -1,7 +1,8 @@
 import time
 import requests
 import telegram_send
-from pprint import pprint
+from datetime import date
+
 
 class Slot:
     def __init__(self, address, date, minAge, vaccType, feeType, avlCapacity):
@@ -15,14 +16,15 @@ class Slot:
 
 
 # ----------------Filter selection.--------------------
+pinCode = '301001'
 for18Plus = True
 for45Plus = True
 includePaid = False
-vaccineType = ['ALL'] # Add 'COVISHIELD', 'COVAXIN', 'SPUTNIK-V'
+vaccineType = ['ALL'] # Default ALL: Slection -'COVISHIELD', 'COVAXIN', 'SPUTNIK-V'
 enableNotification = False
 enableErrorNotification = False
 refreshInterval = 10  # in Seconds (minimum = 3, recommended = 20. Below minimum you will be banned from API)
-includeOccupiedSlots = False
+includeOccupiedSlots = True
 # -----------------------------------------------------
 
 
@@ -55,10 +57,7 @@ else:
 
 
 url = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin"
-
 headers = {'user-agent': 'my-app/0.0.1'}
-
-payload = {'pincode': '301001', 'date': '15-05-2021'}
 
 request_num = 0
 
@@ -66,6 +65,9 @@ request_num = 0
 while True:
 
     print(f'num_req: {request_num}')
+
+    date_today = date.today().strftime("%d-%m-%Y")
+    payload = {'pincode': pinCode, 'date': date_today}
 
     r = requests.get(url, params=payload, headers=headers)
 
