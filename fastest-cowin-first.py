@@ -1,3 +1,11 @@
+# \\********************************************//
+#    About Section: Fastest-CoWIN-First
+#    Author: Dinkar Jain
+#    E-mail: jain.dinkar675@gmail.com
+#    Start: 15-05-2021
+#    Motto: Notified only when it's time.
+# \\********************************************//
+
 import time
 import requests
 import telegram_send
@@ -14,17 +22,17 @@ class Slot:
         self.avlCapacity = avlCapacity
 
 
-
 # ----------------Filter selection.--------------------
-pinCode = '301001' # Change to your city's pincode.
-for18Plus = True
-for45Plus = False
-includePaid = False
-vaccineType = ['ALL'] # Default ALL: Slection -'COVISHIELD', 'COVAXIN', 'SPUTNIK-V'
-enableNotification = True
-enableErrorNotification = False
-refreshInterval = 10  # in Seconds (minimum = 3, recommended = 20. Below minimum you will be banned from API)
-includeOccupiedSlots = False
+pinCode = '301001'                 # Change to your city's pincode.
+# All options below are good as a default. Change according to need.
+for18Plus = True                   # Select for slots 18+ citizens only.(Can select both options)
+for45Plus = False                  # Select slots for 45+ citizens only.
+includePaid = False                # Include slots where vaccination in paid.
+vaccineType = ['ALL']              # Default ALL; Slection 'COVISHIELD', 'COVAXIN', 'SPUTNIK-V'
+includeOccupiedSlots = True        # Include slots which have no vaccine available(for initial datacheck)
+enableNotification = True          # Enable or disable Telegram notifications.(Configure the bot first to avoid unnecessary errors.)
+enableErrorNotification = False    # Enable or disable Telegram error notifiactions. (Optional, for debugging only.)
+refreshInterval = 5                # in Seconds (minimum = 3, recommended = 10. Below minimum you will be banned from servers)
 # -----------------------------------------------------
 
 
@@ -65,7 +73,7 @@ last_text = ''
 
 while True:
 
-    print(f'num_req: {request_num}')
+    print(f'----------------- num_req: {request_num} ------------------')
 
     date_today = date.today().strftime("%d-%m-%Y")
     payload = {'pincode': pinCode, 'date': date_today}
@@ -104,18 +112,20 @@ while True:
                 f'{i+1}) {avl_slot_list[i].address}\n'\
                 f'Date: {avl_slot_list[i].date}\n' \
                 f'Available Capacity: {avl_slot_list[i].avlCapacity}\n'\
-                f'Fee Type: {avl_slot_list[i].feeType}\n\n'
+                f'Fee Type: {avl_slot_list[i].feeType}\n'\
+                f'Age Group: {avl_slot_list[i].minAge}+\n\n'
             )
             message_text += f'{i+1}) {avl_slot_list[i].address}\n'\
                             f'Date: {avl_slot_list[i].date}\n' \
                             f'Available Capacity: {avl_slot_list[i].avlCapacity}\n'\
-                            f'Fee Type: {avl_slot_list[i].feeType}\n\n'
+                            f'Fee Type: {avl_slot_list[i].feeType}\n'\
+                            f'Age Group: {avl_slot_list[i].minAge}+\n\n'
         
         if avl_slot_list:
             if enableNotification:
                 if last_text != message_text:
-                telegram_send.send(messages=[message_text])
-                last_text = message_text
+                    telegram_send.send(messages=[message_text])
+                    last_text = message_text
         else:
             print("No open slots for given filter. Wait untill notification arrives.")
 
