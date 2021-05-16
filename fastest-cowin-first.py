@@ -61,6 +61,7 @@ headers = {'user-agent': 'my-app/0.0.1'}
 
 request_num = 0
 
+last_text = ''
 
 while True:
 
@@ -112,7 +113,9 @@ while True:
         
         if avl_slot_list:
             if enableNotification:
+                if last_text != message_text:
                 telegram_send.send(messages=[message_text])
+                last_text = message_text
         else:
             print("No open slots for given filter. Wait untill notification arrives.")
 
