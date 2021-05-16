@@ -12,23 +12,29 @@ Script uses a telegram bot to notify you as soon as a slot is available for book
 - A good selection of filters, notified only when it's time. :vibration_mode: :heavy_check_mark:
 - Takes very less resources in the background, no CPU loading at all. :battery:
 - Minimal approach, easy to understand, low latency. :stopwatch:
-- Can be modified to integrate with multiple broadcasting channels.(Bots, email, SMS, etc.)
+- Can be modified to integrate with multiple broadcasting channels.(Bots, email, SMS, etc.) :speech_balloon:
 - Selectable refresh frequecy, upto 100 API calls in 5 min. (1 in every 3 sec) :repeat:
 - Properly formatted data, easy to read. :page_with_curl:
-- No repetitive notifications, notifies only on change.:calling:
+- No repetitive notifications, notifies only on change. :calling:
 - Automatic date capture, no need to change dates at midnight, sleep well Tommy. :relieved:
 
 
 ## How to Use:
 
-1. Download and Install Telegram on your phone/desktop.
-2. Install BotFather and create a new bot. (Follow the article from references.)
-3. Create a Python virtual environment in a separate directory.
-4. Clone the repo, install all the requirements from requirements.txt
-5. Configure your bot on desktop using telegram-send --configure.
+1. Create a Python virtual environment in a separate directory and activate it.
+	* <kbd>python -m venv venv</kbd>
+	* <kbd>source venv/bin/activate</kbd>
+2. Clone the repo, install all the requirements from requirements.txt
+	* <kbd>git clone 'repo-address'</kbd>
+	* <kbd>cd Fastest-CoWin-First</kbd> 
+	* <kbd>pip install -r requirements.txt</kbd>
+3. Download and Install Telegram on your phone/desktop form [here](https://telegram.org/).
+4. Create a Telegram bot and configure it. (Follow the article from references.)
+5. Configure your bot on desktop using 
+	* <kbd>telegram-send --configure</kbd>
 6. Set the Appropriate filters in the script.
 7. Run the script in the background.
-
+	* <kbd>python fastest-covin-first.py</kbd>
 
 
 ## FAQ:
