@@ -38,8 +38,8 @@ Script uses a telegram bot to notify you as soon as a slot is available for book
 
 ## Important Notes:
 
-* In case if error notifications are enabled, the script would notify you only once. Make sure to debug the connection.
-* The design of script is such that it notifies/logs only if there is a change compared to previous responses.
+* In case if telegram error notifications are enabled, the script would notify you only once. Make sure to debug the connection in case of an error.
+* The design of script is such that it notifies/logs only if there is a change in response compared to previous responses.
 * You can switch the Telegram notifications on/off, but terminal logs are always enabled.
 * On terminal a num_req variable shows the number of times script tried to hit the API.
 
