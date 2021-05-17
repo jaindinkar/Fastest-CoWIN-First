@@ -17,6 +17,7 @@ Script uses a telegram bot to notify you as soon as a slot is available for book
 - Properly formatted data, easy to read. :page_with_curl:
 - No repetitive notifications, notifies only on change. :calling:
 - Automatic date capture, no need to change dates at midnight, sleep well Tommy. :relieved:
+- Micro-computer compatible. Ex. Raspberry Pi, BeagleBone etc. :computer:
 
 
 ## How to Use:
@@ -41,7 +42,8 @@ Script uses a telegram bot to notify you as soon as a slot is available for book
 * In case if telegram error notifications are enabled, the script would notify you only once. Make sure to debug the connection in case of an error.
 * The design of script is such that it notifies/logs only if there is a change in response compared to previous responses.
 * You can switch the Telegram notifications on/off, but terminal logs are always enabled.
-* On terminal a num_req variable shows the number of times script tried to hit the API.
+* On terminal a num_req variable shows the number of times script tried to hit the API with last recieved response above it.
+* Always remember to maintain a good internet connection on both sides, your notification receiving device and the device running the script.
 
 ## FAQ:
 
