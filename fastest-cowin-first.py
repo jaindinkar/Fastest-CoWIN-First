@@ -32,7 +32,7 @@ includePaid = False                # Include slots where vaccination in paid.
 vaccineType = ['ALL']              # Default ALL; Slection 'COVISHIELD', 'COVAXIN', 'SPUTNIK-V'
 includeOccupiedSlots = False       # Include slots which have no vaccine available(Enable to check output.)
 enableNotification = True          # Enable or disable Telegram notifications.(Configure the bot first to avoid unnecessary errors.)
-enableErrorNotification = False    # Enable or disable Telegram error notifiactions. (Optional, for debugging only.)
+enableErrorNotification = True     # Enable or disable Telegram error notifiactions. (Optional, for debugging only.)
 refreshInterval = 5                # in Seconds (minimum = 3, recommended = 10. Below minimum you will be banned from servers)
 # -----------------------------------------------------
 
@@ -85,6 +85,7 @@ while True:
             restablished_message = "\n\n-- Connection stabilized again --\n\n"
             print(restablished_message)
             last_error = ''
+            last_text = ''
             if enableErrorNotification:
                 telegram_send.send(messages=[restablished_message])
 
@@ -147,8 +148,8 @@ while True:
         if last_error != error_text:
             print(error_text)
             last_error = error_text
-            if enableErrorNotification:
-                telegram_send.send(messages=[error_text])
+            # if enableErrorNotification:
+                # telegram_send.send(messages=[error_text])
     
     except requests.exceptions.Timeout as errTime:
         error_text = f'Request Timeout: {errTime}'
